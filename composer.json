@@ -1,0 +1,47 @@
+{
+    "name": "whallysson/log-viewer-mcp",
+    "description": "MCP Server for opcodesio/log-viewer - expose log analysis tools to AI agents",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Whallysson Avelino",
+            "email": "whallysson.dev@gmail.com"
+        }
+    ],
+    "require": {
+        "php": "^8.1",
+        "laravel/mcp": "^0.1",
+        "opcodesio/log-viewer": "^3.0|^4.0"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^9.0|^10.0",
+        "pestphp/pest": "^3.7",
+        "pestphp/pest-plugin-laravel": "^3.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "Whallysson\\LogViewerMcp\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Whallysson\\LogViewerMcp\\Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Whallysson\\LogViewerMcp\\LogViewerMcpServiceProvider"
+            ]
+        }
+    },
+    "config": {
+        "sort-packages": true,
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}

@@ -1,0 +1,6 @@
+[2024-06-15 08:00:00] production.INFO: Application started {"version":"1.2.0"}
+[2024-06-15 08:15:30] production.WARNING: Slow query detected {"query":"SELECT * FROM orders","duration_ms":5200}
+[2024-06-15 08:30:45] production.ERROR: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'app.sessions' doesn't exist {"exception":"[object] (Illuminate\\Database\\QueryException(code: 42S02): SQLSTATE[42S02]: Base table or view not found: 1146 Table 'app.sessions' doesn't exist at Connection.php:829)"}
+[2024-06-15 09:00:00] production.INFO: Scheduled task completed {"task":"PruneExpiredTokens","duration":1.23}
+[2024-06-15 09:45:12] production.ERROR: Class 'App\Services\PaymentGateway' not found {"exception":"[object] (ReflectionException(code: -1): Class \"App\\Services\\PaymentGateway\" does not exist at Container.php:942)"}
+[2024-06-15 10:00:00] production.DEBUG: Cache hit {"key":"users:42","store":"redis"}
