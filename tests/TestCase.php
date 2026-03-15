@@ -2,16 +2,19 @@
 
 namespace Whallysson\LogViewerMcp\Tests;
 
+use Laravel\Mcp\Server\McpServiceProvider;
+use Opcodes\LogViewer\LogViewerServiceProvider;
 use Orchestra\Testbench\TestCase as OrchestraTestCase;
+use Whallysson\LogViewerMcp\LogViewerMcpServiceProvider;
 
 abstract class TestCase extends OrchestraTestCase
 {
     protected function getPackageProviders($app): array
     {
         return [
-            \Opcodes\LogViewer\LogViewerServiceProvider::class,
-            \Laravel\Mcp\McpServiceProvider::class,
-            \Whallysson\LogViewerMcp\LogViewerMcpServiceProvider::class,
+            LogViewerServiceProvider::class,
+            McpServiceProvider::class,
+            LogViewerMcpServiceProvider::class,
         ];
     }
 

@@ -51,7 +51,7 @@ class GetLogEntryTool extends Tool
             return Response::text("Error reading log: {$e->getMessage()}");
         }
 
-        if (! $log) {
+        if (! $log || (int) $log->index !== $index) {
             return Response::text("Log entry with index {$index} not found in file {$fileIdentifier}.");
         }
 
@@ -61,8 +61,8 @@ class GetLogEntryTool extends Tool
         $fullText = $log->getOriginalText() ?? '';
 
         $maxLen = (int) config('log-viewer-mcp.max_log_text_length', 10000);
-        if (strlen($fullText) > $maxLen) {
-            $fullText = substr($fullText, 0, $maxLen)."\n\n... [truncated at {$maxLen} characters]";
+        if (mb_strlen($fullText) > $maxLen) {
+            $fullText = mb_substr($fullText, 0, $maxLen)."\n\n... [truncated at {$maxLen} characters]";
         }
 
         $text = "## Log Entry #{$index}\n\n";

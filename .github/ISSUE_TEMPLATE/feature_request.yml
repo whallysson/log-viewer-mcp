@@ -1,0 +1,24 @@
+name: Feature Request
+description: Suggest a new feature or tool
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Have an idea for a new tool or improvement? Let us know!
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: Describe the feature you'd like to see.
+    validations:
+      required: true
+
+  - type: textarea
+    id: use-case
+    attributes:
+      label: Use Case
+      description: How would this feature benefit AI agents working with logs?
+    validations:
+      required: true

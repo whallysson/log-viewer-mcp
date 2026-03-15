@@ -1,22 +1,20 @@
 <?php
 
+use Opcodes\LogViewer\Facades\LogViewer;
 use Whallysson\LogViewerMcp\Servers\LogViewerServer;
 use Whallysson\LogViewerMcp\Tools\GetErrorSummaryTool;
 
 it('returns overview of all log files', function () {
-    $this->mcp(LogViewerServer::class)
-        ->tool(GetErrorSummaryTool::class, [])
+    LogViewerServer::tool(GetErrorSummaryTool::class)
         ->assertOk()
         ->assertSee('Log Files Overview')
         ->assertSee('laravel.log');
 });
 
 it('returns detailed summary for specific file', function () {
-    $files = \Opcodes\LogViewer\Facades\LogViewer::getFiles();
-    $file = $files->first();
+    $file = LogViewer::getFiles()->first();
 
-    $this->mcp(LogViewerServer::class)
-        ->tool(GetErrorSummaryTool::class, ['file' => $file->identifier])
+    LogViewerServer::tool(GetErrorSummaryTool::class, ['file' => $file->identifier])
         ->assertOk()
         ->assertSee('Log Summary')
         ->assertSee('Counts by Level')
@@ -24,15 +22,13 @@ it('returns detailed summary for specific file', function () {
 });
 
 it('returns not found for invalid file', function () {
-    $this->mcp(LogViewerServer::class)
-        ->tool(GetErrorSummaryTool::class, ['file' => 'nonexistent.log'])
+    LogViewerServer::tool(GetErrorSummaryTool::class, ['file' => 'nonexistent.log'])
         ->assertOk()
         ->assertSee('File not found');
 });
 
 it('includes file identifiers in overview table', function () {
-    $this->mcp(LogViewerServer::class)
-        ->tool(GetErrorSummaryTool::class, [])
+    LogViewerServer::tool(GetErrorSummaryTool::class)
         ->assertOk()
         ->assertSee('Identifier');
 });

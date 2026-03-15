@@ -13,13 +13,13 @@ class LogViewerMcpServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
-        if (! config('log-viewer-mcp.enabled')) {
-            return;
-        }
-
         $this->publishes([
             __DIR__.'/../config/log-viewer-mcp.php' => config_path('log-viewer-mcp.php'),
         ], 'log-viewer-mcp-config');
+
+        if (! config('log-viewer-mcp.enabled')) {
+            return;
+        }
 
         $this->loadRoutesFrom(__DIR__.'/../routes/ai.php');
     }

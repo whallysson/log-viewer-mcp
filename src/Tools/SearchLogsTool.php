@@ -10,6 +10,8 @@ use Opcodes\LogViewer\Facades\LogViewer;
 
 class SearchLogsTool extends Tool
 {
+    private const LEVELS = ['emergency', 'alert', 'critical', 'error', 'warning', 'notice', 'info', 'debug'];
+
     protected string $name = 'search_logs';
 
     protected string $description = 'Search logs by text query and/or severity level. Returns matching entries with index, timestamp, level, and message. Use get_log_entry to get the full stack trace of a specific result.';
@@ -43,24 +45,37 @@ class SearchLogsTool extends Tool
             return Response::text("Provide at least 'file' or 'query' parameter. Use list_log_files to discover available files.");
         }
 
+        if ($level && ! in_array(strtolower($level), self::LEVELS, true)) {
+            return Response::text("Invalid level: {$level}. Valid levels: ".implode(', ', self::LEVELS));
+        }
+
         if ($fileIdentifier) {
             $file = LogViewer::getFile($fileIdentifier);
             if (! $file) {
                 return Response::text("File not found: {$fileIdentifier}. Use list_log_files to see available files.");
             }
             $logReader = $file->logs();
+
+            if ($query) {
+                $logReader->search($query);
+            }
+            if ($level) {
+                $logReader->only(strtolower($level));
+            }
+
+            $logReader->reverse();
         } else {
             $logReader = LogViewer::getFiles()->logs();
-        }
 
-        if ($query) {
-            $logReader->search($query);
-        }
-        if ($level) {
-            $logReader->only(strtolower($level));
-        }
+            if ($query) {
+                $logReader->search($query);
+            }
+            if ($level) {
+                $logReader->exceptLevels(array_values(array_diff(self::LEVELS, [strtolower($level)])));
+            }
 
-        $logReader->reverse();
+            $logReader->reverse();
+        }
 
         try {
             $logReader->scan();

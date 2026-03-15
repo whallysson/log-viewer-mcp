@@ -1,4 +1,25 @@
 /vendor/
 composer.lock
+
+# Testing
 .phpunit.cache/
 .phpunit.result.cache
+coverage/
+
+# IDEs
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+
+# AI tools
+.claude/
+CLAUDE.md
+
+# Environment
+.env
+.env.*
+
+# Build artifacts
+*.phar
