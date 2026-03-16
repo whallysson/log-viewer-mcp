@@ -28,6 +28,28 @@ it('returns no results message when nothing matches', function () {
         ->assertSee('No logs found matching your criteria');
 });
 
+it('filters logs by severity level', function () {
+    LogViewerServer::tool(SearchLogsTool::class, ['query' => '.', 'level' => 'error'])
+        ->assertOk()
+        ->assertSee('ERROR')
+        ->assertDontSee('[INFO]')
+        ->assertDontSee('[DEBUG]');
+});
+
+it('filters logs by severity level case-insensitive', function () {
+    LogViewerServer::tool(SearchLogsTool::class, ['query' => '.', 'level' => 'WARNING'])
+        ->assertOk()
+        ->assertSee('WARNING')
+        ->assertDontSee('[ERROR]')
+        ->assertDontSee('[INFO]');
+});
+
+it('rejects invalid severity level', function () {
+    LogViewerServer::tool(SearchLogsTool::class, ['query' => '.', 'level' => 'invalid'])
+        ->assertOk()
+        ->assertSee('Invalid level');
+});
+
 it('has correct tool name and description', function () {
     LogViewerServer::tool(SearchLogsTool::class, ['query' => 'SQLSTATE'])
         ->assertName('search_logs')

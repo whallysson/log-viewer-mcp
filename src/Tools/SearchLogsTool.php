@@ -10,7 +10,7 @@ use Opcodes\LogViewer\Facades\LogViewer;
 
 class SearchLogsTool extends Tool
 {
-    private const LEVELS = ['emergency', 'alert', 'critical', 'error', 'warning', 'notice', 'info', 'debug'];
+    private const LEVELS = ['EMERGENCY', 'ALERT', 'CRITICAL', 'ERROR', 'WARNING', 'NOTICE', 'INFO', 'DEBUG'];
 
     protected string $name = 'search_logs';
 
@@ -45,8 +45,8 @@ class SearchLogsTool extends Tool
             return Response::text("Provide at least 'file' or 'query' parameter. Use list_log_files to discover available files.");
         }
 
-        if ($level && ! in_array(strtolower($level), self::LEVELS, true)) {
-            return Response::text("Invalid level: {$level}. Valid levels: ".implode(', ', self::LEVELS));
+        if ($level && ! in_array(strtoupper($level), self::LEVELS, true)) {
+            return Response::text("Invalid level: {$level}. Valid levels: ".implode(', ', array_map('strtolower', self::LEVELS)));
         }
 
         if ($fileIdentifier) {
@@ -60,7 +60,7 @@ class SearchLogsTool extends Tool
                 $logReader->search($query);
             }
             if ($level) {
-                $logReader->only(strtolower($level));
+                $logReader->only(strtoupper($level));
             }
 
             $logReader->reverse();
@@ -71,7 +71,7 @@ class SearchLogsTool extends Tool
                 $logReader->search($query);
             }
             if ($level) {
-                $logReader->exceptLevels(array_values(array_diff(self::LEVELS, [strtolower($level)])));
+                $logReader->exceptLevels(array_values(array_diff(self::LEVELS, [strtoupper($level)])));
             }
 
             $logReader->reverse();

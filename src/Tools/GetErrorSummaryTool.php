@@ -69,7 +69,7 @@ class GetErrorSummaryTool extends Tool
         $text .= "\n**Total**: {$total}\n\n";
 
         $errorReader = $file->logs();
-        $errorReader->only(['emergency', 'alert', 'critical', 'error']);
+        $errorReader->only(['EMERGENCY', 'ALERT', 'CRITICAL', 'ERROR']);
         $errorReader->reverse();
 
         try {
